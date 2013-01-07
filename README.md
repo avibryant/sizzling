@@ -1,0 +1,1 @@
+Currently annoyed with build systems, so symlink algebird to algebird/src/main, and run test.sh.
