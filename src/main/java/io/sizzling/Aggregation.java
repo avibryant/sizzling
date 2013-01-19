@@ -9,11 +9,15 @@ public class Aggregation<C> {
     this.value = value;
   }
 
-  public void aggregate(byte[] bytes) {
+  public void include(byte[] bytes) {
     value = aggregator.reduce(value, aggregator.deserialize(bytes));
   }
 
-  public byte[] serialize() {
+  public byte[] asBytes() {
     return aggregator.serialize(value);
+  }
+
+  public String asString() {
+    return aggregator.present(value);
   }
 }

@@ -1,4 +1,4 @@
-package io.sizzling.aggregator;
+package io.sizzling.examples;
 
 import io.sizzling.*;
 

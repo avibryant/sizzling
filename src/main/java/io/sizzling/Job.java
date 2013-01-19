@@ -26,4 +26,11 @@ abstract public class Job<T> {
   public Table getTable(int index) {
     return tables.get(index);
   }
+
+  public static <T> Job<T> create(String className)
+    throws ClassNotFoundException, InstantiationException, IllegalAccessException
+   {
+    Class jobClass = Class.forName(className);
+    return (Job<T>) jobClass.newInstance();
+  }
 }

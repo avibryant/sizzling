@@ -25,4 +25,8 @@ public class Table<V> {
   public Aggregation aggregation(byte[] bytes) {
     return aggregator.aggregation(bytes);
   }
+
+  public String getName() {
+    return name;
+  }
 }
