@@ -10,4 +10,12 @@ public class Emitted {
     this.key = key;
     this.valueBytes = valueBytes;
   }
+
+  public String makeKeyString() {
+    return tableIndex + ":" + key;
+  }
+
+  public static int getTableIndex(String keyString) {
+    return Integer.parseInt(keyString.split(":")[0]);
+  }
 }
