@@ -17,9 +17,7 @@ public class Tool extends Configured implements org.apache.hadoop.util.Tool {
     Job szJob = Job.create(jobClassName);
     conf.set(JOB_PROPERTY, jobClassName);
 
-    String commandClassName = args[1];
-    Command command = createCommand(commandClassName);
-    conf.set(COMMAND_PROPERTY, commandClassName);
+    Command command = createCommand(args[1]);
 
     org.apache.hadoop.mapreduce.Job mrJob = new org.apache.hadoop.mapreduce.Job(conf);
     
@@ -31,7 +29,6 @@ public class Tool extends Configured implements org.apache.hadoop.util.Tool {
   }
 
   static public final String JOB_PROPERTY = "io.sizzling.job";
-  static public final String COMMAND_PROPERTY = "io.sizzling.command";
 
   static <T> Job<T> createJob(JobContext context) {
     try {
@@ -39,10 +36,6 @@ public class Tool extends Configured implements org.apache.hadoop.util.Tool {
     } catch(Exception e) {
       throw new RuntimeException("Could not create Job: " + e.toString());
     }
-  }
-
-  static Command createCommand(JobContext context) {
-    return createCommand(context.getConfiguration().get(COMMAND_PROPERTY));
   }
 
   static Command createCommand(String className) {

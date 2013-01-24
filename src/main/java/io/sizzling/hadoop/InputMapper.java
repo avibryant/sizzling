@@ -6,9 +6,8 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.io.*;
 import java.io.*;
 
-public class InputMapper<T,K,V> extends Mapper<K, V, Text, BytesWritable> implements Emitter {
+public abstract class InputMapper<T,K,V> extends Mapper<K, V, Text, BytesWritable> implements Emitter {
     private Job<T> job;
-    private InputCommand<T,K,V> command;
     private Text keyWritable = new Text();
     private BytesWritable valueWritable = new BytesWritable();
     private Context context;
@@ -16,14 +15,13 @@ public class InputMapper<T,K,V> extends Mapper<K, V, Text, BytesWritable> implem
     private InterruptedException intException;
 
     protected void setup(Context context) throws IOException, InterruptedException {
-        command = (InputCommand<T,K,V>) Tool.createCommand(context);
         job = Tool.<T>createJob(context);
         job.setEmitter(this);
     }
 
     public void map(K key, V value, Context context) throws IOException, InterruptedException {
         this.context = context;
-        job.process(command.process(key, value));
+        job.process(process(key, value));
         if(ioException != null) {
             throw ioException;
         }
@@ -42,5 +40,7 @@ public class InputMapper<T,K,V> extends Mapper<K, V, Text, BytesWritable> implem
         } catch(InterruptedException ex) {
             intException = ex;
         }
-    }   
+    }  
+
+    protected abstract T process(K key, V value);
 }
