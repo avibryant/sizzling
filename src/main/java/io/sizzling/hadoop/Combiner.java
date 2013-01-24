@@ -11,7 +11,7 @@ public class Combiner extends Reducer<Text, BytesWritable, Text, BytesWritable> 
 
   protected void setup(Context context)
     throws IOException, InterruptedException {
-      job = Util.createJob(context);
+      job = Tool.createJob(context);
   }
 
   public void reduce(Text key, Iterable<BytesWritable> values, Context context) 
