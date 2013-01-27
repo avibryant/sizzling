@@ -2,7 +2,7 @@
 
 def dependency_jars
   raw = `sbt "show compile:dependency-classpath"`
-  raw.scan(%r{[a-zA-Z0-9./-]+[.]jar})
+  raw.scan(%r{[a-zA-Z0-9./_-]+[.]jar})
 end
 
 def classpath
@@ -10,11 +10,11 @@ def classpath
 end
 
 def run_hadoop(command, job, input, output)
-  system("java -cp #{classpath} io.sizzling.hadoop.Tool #{job} #{command} #{input} #{output}")
+  system("scala -cp #{classpath} io.sizzling.hadoop.Tool #{job} #{command} #{input} #{output}")
 end
 
 def run_simple(job, input)
-  system("java -cp #{classpath} io.sizzling.simple.TextRunner #{job} < #{input}")
+  system("scala -cp #{classpath} io.sizzling.simple.TextRunner #{job} < #{input}")
 end
 
 command = ""
