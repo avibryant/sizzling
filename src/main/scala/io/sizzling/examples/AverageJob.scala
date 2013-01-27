@@ -13,6 +13,6 @@ class AverageJob extends RichJob[String] {
     val firstDigit = line.take(1)
     val value = Integer.parseInt(line)
     avg(firstDigit) += value
-    dv("all") += value
+    dv += value
   }
 }
