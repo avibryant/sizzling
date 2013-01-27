@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+def dependency_jars
+  raw = `sbt "show compile:dependency-classpath"`
+  raw.scan(%r{[a-zA-Z0-9./-]+[.]jar})
+end
+
+def classpath
+  "target/scala-2.9.1/classes:" + dependency_jars.join(":")
+end
+
+def run_hadoop(command, job, input, output)
+  system("java -cp #{classpath} io.sizzling.hadoop.Tool #{job} #{command} #{input} #{output}")
+end
+
+command = ""
+
+job = ARGV.shift
+unless job =~ /[.]/
+  job = "io.sizzling.examples." + job
+end
+
+input = ARGV.shift
+out1 = "#{input}.tmp1"
+out2 = "#{input}.tmp2"
+
+system("rm -rf #{out1}")
+system("rm -rf #{out2}")
+
+run_hadoop("io.sizzling.hadoop.TextInputCommand", job, input, out1)
+run_hadoop("io.sizzling.hadoop.OutputCommand", job, out1, out2)
+puts
+puts
+puts("cat #{out2}/*")
+system("cat #{out2}/*")
