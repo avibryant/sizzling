@@ -18,4 +18,8 @@ public class Emitted {
   public static int getTableIndex(String keyString) {
     return Integer.parseInt(keyString.split(":")[0]);
   }
+
+  public static String getTableKey(String keyString) {
+    return keyString.split(":")[1];
+  }
 }
