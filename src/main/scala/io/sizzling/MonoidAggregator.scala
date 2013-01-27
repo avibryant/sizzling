@@ -25,3 +25,9 @@ object Average extends KryoAggregator[Int, AveragedValue] {
   def prepare(in : Int) = AveragedValue(in)
   def present(out : AveragedValue) = out.value.toString
 }
+
+object DistinctValues extends KryoAggregator[Int, HLL] {
+  def monoid = new HyperLogLogMonoid(12)
+  def prepare(in : Int) = monoid.create(HyperLogLog.int2Bytes(in))
+  def present(out : HLL) = out.estimatedSize.toString
+}
