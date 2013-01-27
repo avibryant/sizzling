@@ -20,11 +20,13 @@ public class Combiner extends Reducer<Text, BytesWritable, Text, BytesWritable> 
       Aggregation aggregation = null;
 
       for (BytesWritable val : values) {
+        byte[] bytes = new byte[val.getSize()];
+        System.arraycopy(val.getBytes(), 0, bytes, 0, bytes.length);
         if(aggregation == null) {
           int tableIndex = Emitted.getTableIndex(key.toString());
-          aggregation = job.getTable(tableIndex).aggregation(val.getBytes());
+          aggregation = job.getTable(tableIndex).aggregation(bytes);
         } else {
-          aggregation.include(val.getBytes());
+          aggregation.include(bytes);
         }
       }
 

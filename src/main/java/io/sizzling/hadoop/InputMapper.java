@@ -32,7 +32,7 @@ public abstract class InputMapper<T,K,V> extends Mapper<K, V, Text, BytesWritabl
 
     public void emit(Emitted e) {
         keyWritable.set(e.makeKeyString());
-        valueWritable.set(e.valueBytes, 0, e.valueBytes.length);
+        valueWritable = new BytesWritable(e.valueBytes);
         try {
             context.write(keyWritable, valueWritable);
         } catch(IOException ex) {

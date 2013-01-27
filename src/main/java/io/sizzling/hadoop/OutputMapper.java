@@ -20,7 +20,9 @@ public class OutputMapper extends Mapper<Text, BytesWritable, Text, Text> {
         int tableIndex = Emitted.getTableIndex(fullKey);
         String tableKey = Emitted.getTableKey(fullKey);
         Table table = job.getTable(tableIndex);
-        Aggregation agg = table.aggregation(value.getBytes());
+        byte[] bytes = new byte[value.getSize()];
+        System.arraycopy(value.getBytes(), 0, bytes, 0, bytes.length);
+        Aggregation agg = table.aggregation(bytes);
         valueWritable.set(agg.asString());
         keyWritable.set(table.getName() + "\t" + tableKey);
         context.write(keyWritable, valueWritable);
