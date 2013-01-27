@@ -2,10 +2,14 @@ package io.sizzling.examples
 
 import io.sizzling._
 
-class AverageJob extends Job[String] {
+//expects an input file with one integer per line
+//produces the average value for each initial digit
+class AverageJob extends RichJob[String] {
   val avg = table(Average, "avg")
 
-  def process(line : String) {
-    avg.emit(line.take(1), Integer.parseInt(line))
+  for(line <- input) {
+    val firstDigit = line.take(1)
+    val value = Integer.parseInt(line)
+    avg(firstDigit) += value
   }
 }
