@@ -14,7 +14,7 @@ def run_hadoop(command, job, input, output)
 end
 
 def run_simple(job, input)
-  system("scala -cp #{classpath} io.sizzling.simple.TextRunner #{job} < #{input}")
+  system("scala -cp #{classpath} io.sizzling.simple.TextRunner #{job} < #{input} | sort")
 end
 
 command = ""
@@ -26,17 +26,20 @@ end
 
 input = ARGV.shift
 
-run_simple(job, input)
+if(ARGV.shift == "-hadoop")
+  out1 = "#{input}.tmp1"
+  out2 = "#{input}.tmp2"
 
-out1 = "#{input}.tmp1"
-out2 = "#{input}.tmp2"
+  system("rm -rf #{out1}")
+  system("rm -rf #{out2}")
 
-system("rm -rf #{out1}")
-system("rm -rf #{out2}")
+  run_hadoop("io.sizzling.hadoop.TextInputCommand", job, input, out1)
+  run_hadoop("io.sizzling.hadoop.OutputCommand", job, out1, out2)
+  puts
+  puts
+  puts("cat #{out2}/*")
+  system("cat #{out2}/*")
+else
+  run_simple(job, input)
+end
 
-run_hadoop("io.sizzling.hadoop.TextInputCommand", job, input, out1)
-run_hadoop("io.sizzling.hadoop.OutputCommand", job, out1, out2)
-puts
-puts
-puts("cat #{out2}/*")
-system("cat #{out2}/*")
