@@ -6,11 +6,15 @@ def dependency_jars
 end
 
 def classpath
-  "target/scala-2.9.1/classes:" + dependency_jars.join(":")
+  $classpath ||= ("target/scala-2.9.1/classes:" + dependency_jars.join(":"))
 end
 
 def run_hadoop(command, job, input, output)
   system("java -cp #{classpath} io.sizzling.hadoop.Tool #{job} #{command} #{input} #{output}")
+end
+
+def run_simple(job, input)
+  system("java -cp #{classpath} io.sizzling.simple.TextRunner #{job} < #{input}")
 end
 
 command = ""
@@ -21,6 +25,9 @@ unless job =~ /[.]/
 end
 
 input = ARGV.shift
+
+run_simple(job, input)
+
 out1 = "#{input}.tmp1"
 out2 = "#{input}.tmp2"
 
