@@ -1,25 +1,26 @@
 package io.sizzling.examples;
 
 import io.sizzling.*;
+import java.math.BigInteger;
 
-public class IntSum extends Aggregator<Integer,Integer> {
-  public Integer prepare(Integer in) {
-    return in;
+public class IntSum extends Aggregator<Object,BigInteger> {
+  public BigInteger prepare(Object in) {
+    return new BigInteger(in.toString());
   }
 
-  public Integer reduce(Integer left, Integer right) {
-    return left + right;
+  public BigInteger reduce(BigInteger left, BigInteger right) {
+    return left.add(right);
   }
 
-  public String present(Integer out) {
+  public String present(BigInteger out) {
     return out.toString();
   }
 
-  public byte[] serialize(Integer temp) {
-    return temp.toString().getBytes();
+  public byte[] serialize(BigInteger temp) {
+    return temp.toByteArray();
   }
 
-  public Integer deserialize(byte[] bytes) {
-    return Integer.decode(new String(bytes));
+  public BigInteger deserialize(byte[] bytes) {
+    return new BigInteger(bytes);
   }
 }

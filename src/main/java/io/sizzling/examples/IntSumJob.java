@@ -3,7 +3,7 @@ package io.sizzling.examples;
 import io.sizzling.*;
 
 public class IntSumJob extends Job<String> {
-  Table<Integer> sum = table(new IntSum(), "sum");
+  Table sum = table(new IntSum(), "sum");
 
   public void process(String line) {
     int i = Integer.parseInt(line);
