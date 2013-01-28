@@ -21,7 +21,7 @@ class RichTable[V](table : Table[V]) {
   def apply(key : String) = new RichTableElement(table, key)
 
   def +=(v : V) {
-    table.emit("all", v)
+    table.emit("", v)
   }
 }
 
