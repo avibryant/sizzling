@@ -31,3 +31,9 @@ object DistinctValues extends KryoAggregator[Int, HLL] {
   def prepare(in : Int) = monoid.create(HyperLogLog.int2Bytes(in))
   def present(out : HLL) = out.estimatedSize.toString
 }
+
+case class Sum[V](implicit val monoid : Monoid[V])
+  extends KryoAggregator[V,V] {
+    def prepare(in : V) = in
+    def present(out : V) = out.toString
+}
