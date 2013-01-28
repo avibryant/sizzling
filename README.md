@@ -14,7 +14,7 @@ A quick summary of the Sizzling programming model:
 
 - Each job takes a single input source. For now, only text is supported, so all jobs must be <code>Job&lt;String></code> or, in Scala, <code>RichJob[String]</code>.
 
-- Each job defines one or more tables. Conceptually, these are like hashtables that keep, for each key, a counter or some other fixed-size summary of a set of values. The summary could be max value, mean value, number of distinct values, heavy hitters, a bloom filter, a linear regression… anything that can be computed, or estimated, by a distributed and online algorithm.
+- Each job defines one or more tables. Conceptually, these are like hashtables that keep, for each key, a counter or some other fixed-size summary of a set of values. The summary could be max value, mean value, number of distinct values, heavy hitters, a bloom filter, a linear regression… anything that can be computed, or estimated, by a distributed and online aggregation algorithm. Much of sizzling's value will come from having a rich built-in library of these to use.
 
 - For each row in the input, the job can add values to the sets of any number of keys of any of the tables defined by the job. These are ultimately all merged together into a single summary value for each key in each table.
 
