@@ -10,6 +10,8 @@ organization := "io.sizzling"
 
 libraryDependencies += "org.apache.hadoop" % "hadoop-core" % "0.20.2"            
 
+libraryDependencies += "com.twitter" % "bijection-core_2.9.2" % "0.2.1"
+
 libraryDependencies += "com.twitter" % "chill_2.9.2" % "0.1.2"
 
 libraryDependencies += "com.twitter" % "algebird_2.9.2" % "0.1.6"
