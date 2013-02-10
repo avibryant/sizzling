@@ -16,6 +16,8 @@ libraryDependencies += "com.twitter" % "chill_2.9.2" % "0.1.2"
 
 libraryDependencies += "com.twitter" % "algebird_2.9.2" % "0.1.6"
 
+libraryDependencies += "redis.clients" % "jedis" % "2.0.0"
+
 excludedJars in assembly <<= (fullClasspath in assembly) map { cp =>
   val excludes = Set("jsp-api-2.1-6.1.14.jar", "jsp-2.1-6.1.14.jar",
     "jasper-compiler-5.5.12.jar")

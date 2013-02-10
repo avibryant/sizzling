@@ -17,7 +17,9 @@ def run_simple(job, input)
   system("scala -cp #{classpath} io.sizzling.simple.TextRunner #{job} < #{input} | sort")
 end
 
-command = ""
+def run_redis(job, input)
+  system("scala -cp #{classpath} io.sizzling.redis.TextRunner #{job} < #{input}")
+end
 
 job = ARGV.shift
 unless job =~ /[.]/
@@ -25,8 +27,10 @@ unless job =~ /[.]/
 end
 
 input = ARGV.shift
+mode = ARGV.shift
 
-if(ARGV.shift == "-hadoop")
+case mode
+when "-hadoop"
   out1 = "#{input}.tmp1"
   out2 = "#{input}.tmp2"
 
@@ -39,6 +43,8 @@ if(ARGV.shift == "-hadoop")
   puts
   puts("cat #{out2}/*")
   system("cat #{out2}/*")
+when "-redis"
+  run_redis(job, input)
 else
   run_simple(job, input)
 end
